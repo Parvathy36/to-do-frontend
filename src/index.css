@@ -10,7 +10,7 @@
 }
 
 .task-form input {
-  flex: 1;
+  flex-grow: 1;
   padding: 8px;
   margin-right: 10px;
 }
@@ -25,22 +25,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+  background: #f5f5f5;
+  border-radius: 4px;
 }
 
-.task-list li.completed {
+.task-list li.completed span {
   text-decoration: line-through;
   color: #888;
 }
 
 .task-actions button {
-  margin-left: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.task-list li input[type="text"] {
-  flex: 1;
-  padding: 5px;
-  margin-right: 10px;
+  margin-left: 8px;
 }
