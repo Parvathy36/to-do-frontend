@@ -1,45 +1,46 @@
 .contain {
-  text-align: center;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s ease-in-out;
-  background-color: #f9f9f9; 
-  max-width: 400px; 
-  margin: 20px auto; 
-}
-h1 {
-  color: #333; 
-  margin-bottom: 20px; 
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .insertbox {
-  display: flex; 
-  justify-content: center; 
-  margin-top: 10px; 
+    margin-bottom: 20px;
 }
 
-input[type="text"] {
-  padding: 10px; 
-  border: 1px solid #ccc; 
-  border-radius: 5px; 
-  width: 70%; 
-  margin-right: 10px; 
-  font-size: 16px; 
+.insertbox input {
+    padding: 8px;
+    width: 70%;
 }
 
-button {
-  padding: 10px 15px; 
-  border: none; 
-  border-radius: 5px; 
-  background-color: #007bff; 
-  color: white; 
-  font-size: 16px; 
-  cursor: pointer; 
-  transition: background-color 0.3s ease; 
+.insertbox button {
+    padding: 8px 15px;
+    margin-left: 10px;
 }
 
-button:hover {
-  background-color: #0056b3; 
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+.todo-list li.completed span {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.todo-list li button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
 }
