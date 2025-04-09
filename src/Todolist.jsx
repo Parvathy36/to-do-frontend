@@ -19,31 +19,46 @@ function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: input })
     })
-    .then(() => window.location.reload());
+    .then(() => {
+      setInput('');
+      fetch('http://localhost:3001/api/tasks')
+        .then(res => res.json())
+        .then(data => setTasks(data));
+    });
   };
 
+  // Delete task
   const deleteTask = (id) => {
     fetch(`http://localhost:3001/api/tasks/${id}`, {
       method: 'DELETE'
     })
     .then(() => {
-      setTasks(tasks.filter(task => task._id !== id)); // Remove from UI
+      setTasks(tasks.filter(task => task._id !== id));
     });
   };
 
   return (
-    <div>
-      <h1>Todo List</h1>
-      <form onSubmit={handleSubmit}>
-        <input value={input} onChange={(e) => setInput(e.target.value)} />
-        <button type="submit">Add</button>
+    <div className="app-container">
+      <h1 className="app-title">Todo List</h1>
+      <form onSubmit={handleSubmit} className="task-form">
+        <input
+          className="task-input"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter a new task"
+        />
+        <button type="submit" className="add-button">Add Task</button>
       </form>
-      <ul>
+      <ul className="task-list">
         {tasks.map(task => (
-          <li key={task._id}>
-            {task.text}
-
-            <button onClick={() => deleteTask(task._id)}>Delete</button>
+          <li key={task._id} className="task-item">
+            <span className="task-text">{task.text}</span>
+            <button 
+              onClick={() => deleteTask(task._id)}
+              className="delete-button"
+            >
+              ×
+            </button>
           </li>
         ))}
       </ul>
