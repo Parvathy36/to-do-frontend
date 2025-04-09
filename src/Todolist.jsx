@@ -1,5 +1,21 @@
-import React from 'react';
-function Todolist(){
+import React, { useState } from 'react';
+
+function Todolist() {
+    const [todoText, setTodoText] = useState('');
+
+    const handleInputChange = (e) => {
+        setTodoText(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (todoText.trim() !== '') {
+            // Here you would typically add the todo to your list
+            console.log('New todo:', todoText);
+            setTodoText('');
+        }
+    };
+
     return(
         <div className="contain">
             <h1>Todo List</h1>
