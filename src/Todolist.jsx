@@ -3,62 +3,99 @@ import React, { useState, useEffect } from 'react';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [input, setInput] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState('');
 
-  // Fetch tasks
+  // READ - Fetch all tasks
   useEffect(() => {
-    fetch('http://localhost:3001/api/tasks')
-      .then(res => res.json())
-      .then(data => setTasks(data));
+    fetchTasks();
   }, []);
 
-  // Add task
-  const handleSubmit = (e) => {
+  const fetchTasks = async () => {
+    const response = await fetch('http://localhost:3001/api/tasks');
+    const data = await response.json();
+    setTasks(data);
+  };
+
+  // CREATE - Add new task
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/tasks', {
+    await fetch('http://localhost:3001/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: input })
-    })
-    .then(() => {
-      setInput('');
-      fetch('http://localhost:3001/api/tasks')
-        .then(res => res.json())
-        .then(data => setTasks(data));
     });
+    setInput('');
+    fetchTasks();
   };
 
-  // Delete task
-  const deleteTask = (id) => {
-    fetch(`http://localhost:3001/api/tasks/${id}`, {
-      method: 'DELETE'
-    })
-    .then(() => {
-      setTasks(tasks.filter(task => task._id !== id));
+  // UPDATE - Toggle completion status
+  const toggleComplete = async (id, currentStatus) => {
+    await fetch(`http://localhost:3001/api/tasks/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: !currentStatus })
     });
+    fetchTasks();
+  };
+
+  // UPDATE - Edit task text
+  const startEditing = (task) => {
+    setEditingId(task._id);
+    setEditText(task.text);
+  };
+
+  const saveEdit = async (id) => {
+    await fetch(`http://localhost:3001/api/tasks/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: editText })
+    });
+    setEditingId(null);
+    fetchTasks();
+  };
+
+  // DELETE - Remove task
+  const deleteTask = async (id) => {
+    await fetch(`http://localhost:3001/api/tasks/${id}`, {
+      method: 'DELETE'
+    });
+    fetchTasks();
   };
 
   return (
     <div className="app-container">
-      <h1 className="app-title">Todo List</h1>
+      <h1>Todo List</h1>
       <form onSubmit={handleSubmit} className="task-form">
         <input
-          className="task-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter a new task"
+          placeholder="Add a new task"
         />
-        <button type="submit" className="add-button">Add Task</button>
+        <button type="submit">Add</button>
       </form>
       <ul className="task-list">
         {tasks.map(task => (
-          <li key={task._id} className="task-item">
-            <span className="task-text">{task.text}</span>
-            <button 
-              onClick={() => deleteTask(task._id)}
-              className="delete-button"
-            >
-              ×
-            </button>
+          <li key={task._id} className={task.completed ? 'completed' : ''}>
+            {editingId === task._id ? (
+              <>
+                <input
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                />
+                <button onClick={() => saveEdit(task._id)}>Save</button>
+              </>
+            ) : (
+              <>
+                <span onClick={() => toggleComplete(task._id, task.completed)}>
+                  {task.text}
+                </span>
+                <div className="task-actions">
+                  <button onClick={() => startEditing(task)}>Edit</button>
+                  <button onClick={() => deleteTask(task._id)}>Delete</button>
+                </div>
+              </>
+            )}
           </li>
         ))}
       </ul>
@@ -66,4 +103,4 @@ function App() {
   );
 }
 
-export default App;
+export default Todolist;
