@@ -1,46 +1,95 @@
-.contain {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+/* Reset some defaults */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.insertbox {
-    margin-bottom: 20px;
+/* Container */
+div {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 350px;
 }
 
-.insertbox input {
-    padding: 8px;
-    width: 70%;
+/* Heading */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.insertbox button {
-    padding: 8px 15px;
-    margin-left: 10px;
+/* Form */
+form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-.todo-list {
-    list-style: none;
-    padding: 0;
+input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-right: 10px;
+  outline: none;
 }
 
-.todo-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 5px;
+input:focus {
+  border-color: #007bff;
 }
 
-.todo-list li.completed span {
-    text-decoration: line-through;
-    color: #888;
+/* Button */
+button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.todo-list li button {
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Task list */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+li button {
+  background-color: #ff4d4d;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+li button:hover {
+  background-color: #e60000;
 }
