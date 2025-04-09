@@ -12,31 +12,45 @@ function App() {
   }, []);
 
   const fetchTasks = async () => {
-    const response = await fetch('http://localhost:3001/api/tasks');
-    const data = await response.json();
-    setTasks(data);
+    try {
+      const response = await fetch('http://localhost:3001/api/tasks');
+      const data = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    }
   };
 
   // CREATE - Add new task
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:3001/api/tasks', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: input })
-    });
-    setInput('');
-    fetchTasks();
+    if (!input.trim()) return;
+    
+    try {
+      await fetch('http://localhost:3001/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: input })
+      });
+      setInput('');
+      fetchTasks();
+    } catch (error) {
+      console.error('Error adding task:', error);
+    }
   };
 
   // UPDATE - Toggle completion status
   const toggleComplete = async (id, currentStatus) => {
-    await fetch(`http://localhost:3001/api/tasks/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ completed: !currentStatus })
-    });
-    fetchTasks();
+    try {
+      await fetch(`http://localhost:3001/api/tasks/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed: !currentStatus })
+      });
+      fetchTasks();
+    } catch (error) {
+      console.error('Error toggling task:', error);
+    }
   };
 
   // UPDATE - Edit task text
@@ -46,21 +60,31 @@ function App() {
   };
 
   const saveEdit = async (id) => {
-    await fetch(`http://localhost:3001/api/tasks/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: editText })
-    });
-    setEditingId(null);
-    fetchTasks();
+    if (!editText.trim()) return;
+    
+    try {
+      await fetch(`http://localhost:3001/api/tasks/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: editText })
+      });
+      setEditingId(null);
+      fetchTasks();
+    } catch (error) {
+      console.error('Error saving edit:', error);
+    }
   };
 
   // DELETE - Remove task
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:3001/api/tasks/${id}`, {
-      method: 'DELETE'
-    });
-    fetchTasks();
+    try {
+      await fetch(`http://localhost:3001/api/tasks/${id}`, {
+        method: 'DELETE'
+      });
+      fetchTasks();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
   };
 
   return (
@@ -103,4 +127,4 @@ function App() {
   );
 }
 
-export default Todolist;
+export default App;
